@@ -1,29 +1,39 @@
-[gd_scene load_steps=4 format=3 uid="uid://b12lnsk1kot5i"]
+[gd_scene load_steps=6 format=3 uid="uid://b12lnsk1kot5i"]
 
 [ext_resource type="Script" path="res://nodes/traps.gd" id="1_57544"]
 [ext_resource type="Texture2D" uid="uid://bey4yj5y60q8u" path="res://assets/Tiles/Style 1/PipeStyle1.png" id="1_anbvy"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fodrt"]
-size = Vector2(32, 168)
+size = Vector2(32, 164)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_toacj"]
+size = Vector2(32, 164)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_gykhs"]
+a = Vector2(-2, -174)
+b = Vector2(-2, -46)
 
 [node name="Pipes" type="Node2D"]
+position = Vector2(32, 608)
 script = ExtResource("1_57544")
 
 [node name="TopArea" type="Area2D" parent="."]
+scale = Vector2(2, 2)
 metadata/_edit_group_ = true
 
 [node name="Top" type="Sprite2D" parent="TopArea"]
-position = Vector2(0, -104)
-scale = Vector2(1, 2.05)
+position = Vector2(0, -105)
+scale = Vector2(1, 2.075)
 texture = ExtResource("1_anbvy")
 region_enabled = true
 region_rect = Rect2(0, 0, 32, 80)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TopArea"]
-position = Vector2(0, -104)
+position = Vector2(0, -106)
 shape = SubResource("RectangleShape2D_fodrt")
 
 [node name="BtnArea" type="Area2D" parent="."]
+scale = Vector2(2, 2)
 metadata/_edit_group_ = true
 
 [node name="Bottom" type="Sprite2D" parent="BtnArea"]
@@ -35,7 +45,18 @@ region_rect = Rect2(0, 80, 32, 80)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BtnArea"]
 position = Vector2(0, 108)
-shape = SubResource("RectangleShape2D_fodrt")
+shape = SubResource("RectangleShape2D_toacj")
+
+[node name="CoinArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CoinArea"]
+position = Vector2(48, 112)
+shape = SubResource("SegmentShape2D_gykhs")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(-56, 8)
 
 [connection signal="body_entered" from="TopArea" to="." method="_on_top_area_body_entered"]
 [connection signal="body_entered" from="BtnArea" to="." method="_on_btn_area_body_entered"]
+[connection signal="body_entered" from="CoinArea" to="." method="_on_coin_area_body_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
